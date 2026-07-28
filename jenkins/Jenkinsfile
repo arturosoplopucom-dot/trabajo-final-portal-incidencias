@@ -1,0 +1,56 @@
+pipeline {
+  agent any
+
+  parameters {
+    string(name: 'TAGS', defaultValue: '@registro', description: 'Tag del único escenario del trabajo final')
+  }
+
+  stages {
+    stage('Checkout') {
+      steps { checkout scm }
+    }
+
+    stage('Instalar dependencias') {
+      steps {
+        script {
+          if (isUnix()) { sh 'npm ci' }
+          else { bat 'npm ci' }
+        }
+      }
+    }
+
+    stage('Instalar navegador') {
+      steps {
+        script {
+          if (isUnix()) { sh 'npx playwright install --with-deps chromium' }
+          else { bat 'npx playwright install chromium' }
+        }
+      }
+    }
+
+    stage('Validar proyecto') {
+      steps {
+        script {
+          if (isUnix()) { sh 'npm run validate:jenkins' }
+          else { bat 'npm run validate:jenkins' }
+        }
+      }
+    }
+
+    stage('Ejecutar pruebas') {
+      steps {
+        script {
+          if (isUnix()) { sh "npm run ci -- --tags '${params.TAGS}'" }
+          else { bat "npm run ci -- --tags \"${params.TAGS}\"" }
+        }
+      }
+    }
+  }
+
+  post {
+    always {
+      archiveArtifacts artifacts: 'ejecuciones/**/*,reports/**/*', allowEmptyArchive: true, fingerprint: true
+      allure includeProperties: false, jdk: '', results: [[path: 'allure/results']]
+    }
+  }
+}

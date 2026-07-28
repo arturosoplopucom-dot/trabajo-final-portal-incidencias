@@ -1,0 +1,14 @@
+node_modules/
+dist/
+.runtime/
+features/generated/*.feature
+allure/results/*
+allure/report/*
+reports/cucumber/*
+ejecuciones/*
+!features/generated/.gitkeep
+!allure/results/.gitkeep
+!allure/report/.gitkeep
+!reports/cucumber/.gitkeep
+!ejecuciones/.gitkeep
+*.log
