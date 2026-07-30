@@ -57,13 +57,22 @@ pipeline {
         }
     }
 
-    post {
-        always {
-            archiveArtifacts(
-                artifacts: 'ejecuciones/**/*.pdf,ejecuciones/**/logs/**,ejecuciones/**/screenshots/**,allure/report/**',
-                allowEmptyArchive: true,
-                fingerprint: true
-            )
-        }
+   post {
+    always {
+
+        allure(
+            commandline: 'Allure 2.43.0',
+            includeProperties: false,
+            jdk: '',
+            resultPolicy: 'LEAVE_AS_IS',
+            results: [[path: 'allure/results']]
+        )
+
+        archiveArtifacts(
+            artifacts: 'ejecuciones/**/*.pdf,ejecuciones/**/logs/**,ejecuciones/**/screenshots/**,allure/report/**',
+            allowEmptyArchive: true,
+            fingerprint: true
+        )
     }
+}
 }
