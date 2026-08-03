@@ -4,8 +4,8 @@
   "headless": true,
   "slowMo": 0,
   "viewport": { "width": 1440, "height": 900 },
-  "recordVideo": false,
+  "recordVideo": true,
   "screenshotsByStep": true,
-  "trace": false,
+  "trace": true,
   "timeoutMs": 45000
 }

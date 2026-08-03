@@ -6,6 +6,6 @@
   "viewport": { "width": 1440, "height": 900 },
   "recordVideo": true,
   "screenshotsByStep": true,
-  "trace": false,
+  "trace": true,
   "timeoutMs": 30000
 }
